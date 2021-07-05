@@ -1,9 +1,4 @@
-from flask import Flask, make_response, jsonify
-
-__author__ = 'Vince'
-
-app = Flask(__name__)
-app.config.from_object('config')
+from app import create_app
 
 # @app.route('/hello/')
 # def hello():
@@ -18,5 +13,8 @@ app.config.from_object('config')
 
 from app.web import book
 
+app = create_app()
+
 if __name__ == '__main__':
+    print(id(app))
     app.run(host='0.0.0.0', debug=app.config['DEBUG'])

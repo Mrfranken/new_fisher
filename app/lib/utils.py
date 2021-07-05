@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests
+import logging
 
 
 def is_isbn(value):
@@ -8,3 +8,10 @@ def is_isbn(value):
     if (length_of_value == 13 or length_of_value == 10) and short_value.isdigit():
         return True
     return False
+
+
+def get_logger():
+    logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s',
+                        level=logging.DEBUG)
+    logger = logging.getLogger()
+    return logger
