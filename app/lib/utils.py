@@ -15,3 +15,11 @@ def get_logger():
                         level=logging.DEBUG)
     logger = logging.getLogger()
     return logger
+
+
+def extract_dict_from_class(class_name):
+    outcome = {}
+    for name in class_name.__dict__:
+        if not name.startswith('_'):
+            outcome.update({name: getattr(class_name, name)})
+    return outcome

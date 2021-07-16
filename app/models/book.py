@@ -1,3 +1,4 @@
+import json
 from sqlalchemy import Column, Integer, String
 from flask_sqlalchemy import SQLAlchemy
 
@@ -12,7 +13,7 @@ class Book(db.Model):
     title = Column(String(50), nullable=False)
     author = Column(String(30), default='未名')
     binding = Column(String(20))
-    image = Column(String(50))
+    image = Column(String(100))
     page = Column(Integer)
     price = Column(String(20))
     pubdate = Column(String(20))

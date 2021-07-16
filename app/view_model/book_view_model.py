@@ -1,0 +1,2 @@
+class BookViewModel(object):
+    pass
