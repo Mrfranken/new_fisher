@@ -3,6 +3,7 @@ import platform
 import requests
 from requests.exceptions import ConnectionError
 import json
+import http.client
 
 content = {"create_time": "2021-06-02 08:53:27", "isbn": "9787108070371", "title": "什么是社会学",
            "book_info": {"作者": "赵鼎新", "出版社": "生活·读书·新知三联书店", "出版年": "2021-5", "页数": "160", "定价": "39.00元", "装帧": "平装",
@@ -49,28 +50,40 @@ content = {"create_time": "2021-06-02 08:53:27", "isbn": "9787108070371", "title
 class HttpHelper(object):
 
     @staticmethod
-    def get(url, return_json=True):
-        # apikey = {'apikey': 'OWHagO3Wmkt0FLaZJTtgHxCzGDxHt0Uu'}
-        #
-        # if 'Darwin' in platform.platform():
-        #     response = requests.get(url, timeout=3, headers=apikey)
-        # else:
-        #     proxies = {"http": "http://10.144.1.10:8080", "https": "https://10.144.1.10:8080"}
-        #     response = requests.get(url, proxies=proxies, timeout=10, headers=apikey)
+    def get(url=None, isbn=None, return_json=True):
+
+        proxies = {"http": "http://10.158.100.9:8080", "https": "https://10.158.100.9:8080"}
+        data = {
+            'isbn': isbn,
+            'key': '6Ffb9ZNmRVvi7YowQ2eRARLfB'
+
+        }
+        resp = requests.get('https://binstd.apistd.com/isbn/query', params=data, proxies=proxies)
         # if response.status_code != 200:
         #     return {} if return_json else ''
         # return response.json() if return_json else response.text
-        outcome = None
+        # outcome = None
         # with open(r'C:\D\myworkspace\mygitpro\new_fisher\9787108070371.txt', 'r', encoding='utf8') as f:
         #     outcome = f.readlines()[0]
         # return json.loads(outcome)
+        with open(r'C:\D\myworkspace\mygitpro\new_fisher\{}.txt'.format(isbn), 'w', encoding='utf8') as f:
+            f.write(str(resp.json()))
+        # return json.loads(outcome)
 
-        return content
+        # return content
 
 
 if __name__ == '__main__':
     url = 'https://book.feelyou.top/isbn/9787201094014'  # 'http://t.yushu.im/v2/web/isbn/9787501524044'
-    outcome = HttpHelper.get(url)
+    isbn_list = [
+        '9787108012586',
+        '9787546206134',
+        '9787108012555',
+        '9787108012548',
+        '9787108012692'
+    ]
+    for isbn in isbn_list:
+        outcome = HttpHelper.get(isbn=isbn)
     # html = requests.get(url)
     # html1 = html.json()
     print(outcome)

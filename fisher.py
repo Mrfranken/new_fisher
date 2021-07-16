@@ -17,4 +17,4 @@ app = create_app()
 
 if __name__ == '__main__':
     print(id(app))
-    app.run(host='0.0.0.0', debug=app.config['DEBUG'])
+    app.run(host='0.0.0.0', debug=app.config['DEBUG'], threaded=True)
