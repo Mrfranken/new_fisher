@@ -50,24 +50,23 @@ content = {"create_time": "2021-06-02 08:53:27", "isbn": "9787108070371", "title
 class HttpHelper(object):
 
     @staticmethod
-    def get(url=None, isbn=None, return_json=True):
+    def get(q=None, isbn=None, return_json=True, proxies=True):
 
-        proxies = {"http": "http://10.158.100.9:8080", "https": "https://10.158.100.9:8080"}
+        if proxies:
+            proxies = {"http": "http://10.158.100.9:8080", "https": "https://10.158.100.9:8080"}
+        else:
+            proxies = {}
         data = {
-            'isbn': isbn,
+            'isbn': q or isbn,
             'key': '6Ffb9ZNmRVvi7YowQ2eRARLfB'
-
         }
-        resp = requests.get('https://binstd.apistd.com/isbn/query', params=data, proxies=proxies)
-        # if response.status_code != 200:
-        #     return {} if return_json else ''
-        # return response.json() if return_json else response.text
-        # outcome = None
-        # with open(r'C:\D\myworkspace\mygitpro\new_fisher\9787108070371.txt', 'r', encoding='utf8') as f:
-        #     outcome = f.readlines()[0]
-        # return json.loads(outcome)
-        with open(r'C:\D\myworkspace\mygitpro\new_fisher\{}.txt'.format(isbn), 'w', encoding='utf8') as f:
-            f.write(str(resp.json()))
+        response = requests.get('https://binstd.apistd.com/isbn/query', params=data, proxies=proxies)
+        if response.status_code != 200:
+            return {} if return_json else ''
+        return response.json() if return_json else response.text
+
+        # with open(r'C:\D\myworkspace\mygitpro\new_fisher\{}.txt'.format(isbn), 'w', encoding='utf8') as f:
+        #     f.write(str(resp.json()))
         # return json.loads(outcome)
 
         # return content
