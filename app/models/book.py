@@ -19,3 +19,22 @@ class Book(db.Model):
     pubdate = Column(String(20))
     publisher = Column(String(50))
     summary = Column(String(1000))
+
+    @classmethod
+    def write_book(cls, d: dict):
+        book = cls(isbn=d.get('isbn'),
+                   title=d.get('title'),
+                   author=d.get('author', ''),
+                   binding=d.get('binding', None),
+                   image=d.get('image', None),
+                   page=d.get('page', None),
+                   price=d.get('price', None),
+                   pubdate=d.get('pubdate', None),
+                   publisher=d.get('publisher', None),
+                   summary=d.get('summary', None))
+        db.session.add(book)
+        db.session.commit()
+
+
+if __name__ == '__main__':
+    print(1)

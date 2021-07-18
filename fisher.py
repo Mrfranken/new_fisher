@@ -11,10 +11,7 @@ from app import create_app
 #     resp.headers = headers
 #     return resp
 
-from app.web import book
-
 app = create_app()
 
 if __name__ == '__main__':
-    print(id(app))
-    app.run(host='0.0.0.0', debug=app.config['DEBUG'], threaded=True)
+    app.run(host='0.0.0.0', debug=app.config['DEBUG'])

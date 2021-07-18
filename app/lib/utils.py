@@ -6,8 +6,8 @@ def is_isbn(value):
     short_value = value.replace('-', '') if '-' in value else value
     length_of_value = len(value)
     if (length_of_value == 13 or length_of_value == 10) and short_value.isdigit():
-        return True
-    return False
+        return 'isbn'
+    return 'keyword'
 
 
 def get_logger():
@@ -17,9 +17,14 @@ def get_logger():
     return logger
 
 
-def extract_dict_from_class(class_name):
-    outcome = {}
-    for name in class_name.__dict__:
-        if not name.startswith('_'):
-            outcome.update({name: getattr(class_name, name)})
-    return outcome
+
+
+
+class A(object):
+    def run(self):
+        return 3
+
+
+if __name__ == '__main__':
+    a = A()
+    a.run()

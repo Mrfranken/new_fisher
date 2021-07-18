@@ -2,6 +2,7 @@ from werkzeug.local import LocalStack
 from werkzeug.local import LocalStack, LocalProxy
 from flask import _app_ctx_stack
 
+
 class P(object):
     def __init__(self):
         self.age = 29
@@ -10,13 +11,10 @@ class P(object):
         _app_ctx_stack.push(self)
 
 
-
 if __name__ == '__main__':
     p = P()
     p.push()
     print(_app_ctx_stack.top)
-
-
 
     ls = LocalStack()
     # ls.push({'abc': '123'})
@@ -29,7 +27,6 @@ if __name__ == '__main__':
     test_stack = LocalStack()
     test_stack.push({'abc': '123'})
     test_stack.push({'abc': '1234'})
-
 
 
     def pop_item():
