@@ -51,7 +51,8 @@ class HttpHelper(object):
 
     @staticmethod
     def get(q=None, isbn=None, return_json=True, proxies=True):
-
+        if 'mac' in platform.platform():
+            proxies = False
         if proxies:
             proxies = {"http": "http://10.158.100.9:8080", "https": "https://10.158.100.9:8080"}
         else:
