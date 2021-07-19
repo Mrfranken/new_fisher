@@ -1,7 +1,7 @@
 from flask import Flask, make_response, jsonify, _app_ctx_stack, request
 from flask.ctx import AppContext
-from app.web import web
-from app.models.book import db
+from .web import web
+from .models.book import db
 
 __author__ = 'Vince'
 

@@ -50,7 +50,7 @@ content = {"create_time": "2021-06-02 08:53:27", "isbn": "9787108070371", "title
 class HttpHelper(object):
 
     @staticmethod
-    def get(q=None, isbn=None, return_json=True, proxies=False):
+    def get(q=None, isbn=None, return_json=True, proxies=True):
 
         if proxies:
             proxies = {"http": "http://10.158.100.9:8080", "https": "https://10.158.100.9:8080"}
@@ -80,10 +80,10 @@ if __name__ == '__main__':
         # '9787108012555',
         # '9787108012548',
         # '9787108012692'
-        '9787535732309'
+        '9787546206134'
     ]
     for isbn in isbn_list:
-        outcome = HttpHelper.get(isbn=isbn)
+        outcome = HttpHelper.get(isbn=isbn, proxies=True)
     # html = requests.get(url)
     # html1 = html.json()
     print(outcome)

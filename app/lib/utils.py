@@ -17,9 +17,6 @@ def get_logger():
     return logger
 
 
-
-
-
 class A(object):
     def run(self):
         return 3

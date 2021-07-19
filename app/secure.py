@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # 千万千万不要将 127.0.0.1 写成 localhost
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:8823443wsj_WIN@127.0.0.1:3306/new_fisher'  # pip install cymysql
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:noki@123@10.57.150.116:3306/new_fisher'  # pip install cymysql
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 SECRET_KEY = '8823443wsj_WIN'
