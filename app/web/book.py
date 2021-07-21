@@ -1,11 +1,11 @@
 from flask import jsonify, request
 from ..lib.utils import is_isbn, get_logger
-from ..lib.helper import HttpHelper
+# from app.lib.book_spider import BookSpider
 from ..web import web
 from ..forms.book import SearchForm
-from ..models.book import db, Book
-from ..view_model.book_view_model import BookViewModel
-
+from ..models.book import Book
+from ..view_model.book_view_model import BookViewModel, BookCollection
+from ..spider.fisher_book import FisherBook
 logger = get_logger()
 
 
@@ -25,20 +25,14 @@ def search():
         # page = request.args['page']
         q = str(form.q.data).strip()
         page = str(form.page.data).strip()
+        fish_book = FisherBook()
+        books = BookCollection()
 
         if is_isbn(q) == 'isbn':
-            single_book = Book.query.filter_by(isbn=q).all()
-            if single_book:
-                logger.debug('isbn {} exists in database'.format(q))
-                result = BookViewModel.get_single_book_from_database(single_book[0], q)
-            else:
-                logger.debug('there is no book by isbn {}'.format(q))
-                raw_data = HttpHelper.get(q)
-                result = BookViewModel.pack_single(raw_data, q)
-            return jsonify(result)
+            fish_book.search_by_isbn(isbn=q)
         else:
-            logger.debug('kw {} searching'.format(q))
-            return jsonify(BookViewModel.pack_collection(q))
-
+            fish_book.search_by_keyword(keyword=q)
+        books.collect_book(fish_book, q)
+        return jsonify({k: v.__dict__ for k, v in enumerate(books.books)})
     else:
         return jsonify({'msg': form.q.errors})

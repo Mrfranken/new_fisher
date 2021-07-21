@@ -2,6 +2,7 @@ from flask import Flask, make_response, jsonify, _app_ctx_stack, request
 from flask.ctx import AppContext
 from .web import web
 from .models.book import db
+import platform
 
 __author__ = 'Vince'
 
@@ -15,7 +16,10 @@ def create_app():
     # 读取配置文件
 
     app.config.from_pyfile('config.py')
-    app.config.from_pyfile('secure.py')
+    if 'mac' in platform.platform():
+        app.config.from_pyfile('mac_secure.py')
+    else:
+        app.config.from_pyfile('win_secure.py')
     # app.config.from_object('app.config')
     register_blueprint(app)
     db.init_app(app)

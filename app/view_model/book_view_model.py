@@ -1,11 +1,10 @@
 from ..models.book import Book
-from ..models.book import Book
-from ..lib.utils import is_isbn, get_logger
+from ..lib.utils import get_logger
 
 logger = get_logger()
 
 
-class BookViewModel(object):
+class _BookViewModel(object):
     """
     处理原始数据
     """
@@ -47,13 +46,13 @@ class BookViewModel(object):
         book = dict(isbn=d.get('isbn'),
                     title=d.get('title'),
                     author=d.get('author', ''),
-                    binding=d.get('binding', None),
-                    image=d.get('pic', None),
-                    page=d.get('page', None),
-                    price=d.get('price', None),
-                    pubdate=d.get('pubdate', None),
-                    publisher=d.get('publisher', None),
-                    summary=d.get('summary', None))
+                    binding=d.get('binding', ''),
+                    image=d.get('pic', ''),
+                    page=d.get('page') or '',
+                    price=d.get('price', ''),
+                    pubdate=d.get('pubdate', ''),
+                    publisher=d.get('publisher', ''),
+                    summary=d.get('summary', ''))
         return book
 
     @staticmethod
@@ -61,7 +60,7 @@ class BookViewModel(object):
         outcome = {}
         for name in class_name.__dict__:
             if not name.startswith('_') and name != 'id':
-                outcome.update({name: getattr(class_name, name)})
+                outcome.update({name: getattr(class_name, name) or ''})
         return [outcome]
 
     @classmethod
@@ -72,3 +71,29 @@ class BookViewModel(object):
         outcome['total'] = 1
         outcome['keyword'] = q
         return outcome
+
+
+class BookViewModel(object):
+    def __init__(self, fisher_book):
+        self.isbn = fisher_book.get('isbn')
+        self.title = fisher_book.get('title')
+        self.author = fisher_book.get('author', '')
+        self.binding = fisher_book.get('binding', '')
+        self.image = fisher_book.get('image', '')
+        self.page = fisher_book.get('page') or ''
+        self.price = fisher_book.get('price', '')
+        self.pubdate = fisher_book.get('pubdate', '')
+        self.publisher = fisher_book.get('publisher', '')
+        self.summary = fisher_book.get('summary', '')
+
+
+class BookCollection(object):
+    def __init__(self):
+        self.total = 0
+        self.books = []
+        self.keyword = ''
+
+    def collect_book(self, fisher_book, keyword):
+        self.total = fisher_book.total
+        self.keyword = keyword
+        self.books = [BookViewModel(book) for book in fisher_book.books]

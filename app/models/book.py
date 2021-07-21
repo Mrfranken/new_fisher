@@ -25,13 +25,13 @@ class Book(db.Model):
         book = cls(isbn=d.get('isbn'),
                    title=d.get('title'),
                    author=d.get('author', ''),
-                   binding=d.get('binding', None),
-                   image=d.get('image', None),
-                   page=d.get('page', None),
-                   price=d.get('price', None),
-                   pubdate=d.get('pubdate', None),
-                   publisher=d.get('publisher', None),
-                   summary=d.get('summary', None))
+                   binding=d.get('binding', ''),
+                   image=d.get('image', ''),
+                   page=d.get('page', ''),
+                   price=d.get('price', ''),
+                   pubdate=d.get('pubdate', ''),
+                   publisher=d.get('publisher', ''),
+                   summary=d.get('summary', ''))
         db.session.add(book)
         db.session.commit()
 
