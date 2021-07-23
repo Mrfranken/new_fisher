@@ -1,10 +1,8 @@
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 import json
 from ..lib.utils import is_isbn, get_logger
-# from app.lib.book_spider import BookSpider
 from ..web import web
 from ..forms.book import SearchForm
-from ..models.book import Book
 from ..view_model.book_view_model import BookViewModel, BookCollection
 from ..spider.fisher_book import FisherBook
 
@@ -42,3 +40,8 @@ def search():
         return json.dumps(books, default=lambda x: x.__dict__)
     else:
         return jsonify({'msg': form.q.errors})
+
+
+@web.route('/test/')
+def test():
+    return render_template('test.html')
