@@ -23,13 +23,15 @@ class FisherBook(object):
                     summary=d.get('summary', ''))
         return book
 
-    def _get_single_book(self, raw_data):
-        self.total = 1
+    def _get_single_book_from_api(self, raw_data):
         if raw_data and raw_data['msg'] == 'ok':
+            self.total = 1
             book = raw_data['result']
             b = self._cut_book_data(book)
             Book.write_book(b)
             self.books = [b]
+        else:
+            logger.debug('can not find book by isbn')
 
     def search_by_isbn(self, isbn):
         single_book = Book.query.filter_by(isbn=isbn).all()
@@ -38,7 +40,7 @@ class FisherBook(object):
             self.books = self._extract_dict_from_instance(single_book[0])
         else:
             raw_data = HttpHelper.get(isbn)
-            self._get_single_book(raw_data)
+            self._get_single_book_from_api(raw_data)
 
     def search_by_keyword(self, keyword):
         books = Book.query.filter(Book.author.like('%{}%'.format(keyword))).all()

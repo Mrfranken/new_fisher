@@ -1,4 +1,5 @@
 from flask import jsonify, request
+import json
 from ..lib.utils import is_isbn, get_logger
 # from app.lib.book_spider import BookSpider
 from ..web import web
@@ -6,6 +7,7 @@ from ..forms.book import SearchForm
 from ..models.book import Book
 from ..view_model.book_view_model import BookViewModel, BookCollection
 from ..spider.fisher_book import FisherBook
+
 logger = get_logger()
 
 
@@ -25,14 +27,18 @@ def search():
         # page = request.args['page']
         q = str(form.q.data).strip()
         page = str(form.page.data).strip()
-        fish_book = FisherBook()
-        books = BookCollection()
 
+        fish_book = FisherBook()
         if is_isbn(q) == 'isbn':
+            logger.debug('q is isbn')
             fish_book.search_by_isbn(isbn=q)
         else:
+            logger.debug('q is not isbn')
             fish_book.search_by_keyword(keyword=q)
+
+        books = BookCollection()
         books.collect_book(fish_book, q)
-        return jsonify({k: v.__dict__ for k, v in enumerate(books.books)})
+        # return jsonify({k: v.__dict__ for k, v in enumerate(books.books)})
+        return json.dumps(books, default=lambda x: x.__dict__)
     else:
         return jsonify({'msg': form.q.errors})
