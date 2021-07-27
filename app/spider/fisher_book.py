@@ -43,6 +43,9 @@ class FisherBook(object):
             self._get_single_book_from_api(raw_data)
 
     def search_by_keyword(self, keyword):
+        """
+        only from database but not api
+        """
         books = Book.query.filter(Book.author.like('%{}%'.format(keyword))).all()
         data = []
         for book in books:

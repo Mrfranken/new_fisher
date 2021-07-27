@@ -44,4 +44,8 @@ def search():
 
 @web.route('/test/')
 def test():
-    return render_template('test.html')
+    r = {
+        'name': 'Vince',
+        'age': 29
+    }
+    return render_template('test.html', data=r)
