@@ -12,8 +12,8 @@ def register_blueprint(app):
 
 
 def create_app():
-    # app = Flask(__name__, static_url_path='/hello')
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='/hello')
+    # app = Flask(__name__)
     # 读取配置文件
     app.config.from_pyfile('config.py')
     if 'mac' in platform.platform():
