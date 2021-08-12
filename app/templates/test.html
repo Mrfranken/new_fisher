@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="{{url_for('static', filename='images/upload.png')}}">ad</link>
 </head>
 <body>
+<span href="{{url_for('static', filename='images/upload.png')}}">ad</span>
     {{data.age1 | default('99') | float}}
 </body>
 </html>

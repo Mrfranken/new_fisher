@@ -1,4 +1,4 @@
-from flask import jsonify, request, render_template
+from flask import jsonify, request, render_template, flash
 import json
 from ..lib.utils import is_isbn, get_logger
 from ..web import web
@@ -20,6 +20,7 @@ def search():
     2. 如果搜索的是关键字，只从数据库中读取，因为api不支持关键字搜索
     """
     form = SearchForm(request.args)
+    books = BookCollection()
     if form.validate():
         # q = request.args['q']
         # page = request.args['page']
@@ -34,18 +35,16 @@ def search():
             logger.debug('q is not isbn')
             fish_book.search_by_keyword(keyword=q)
 
-        books = BookCollection()
         books.collect_book(fish_book, q)
         # return jsonify({k: v.__dict__ for k, v in enumerate(books.books)})
-        return json.dumps(books, default=lambda x: x.__dict__)
+        # return json.dumps(books, default=lambda x: x.__dict__)
+
     else:
-        return jsonify({'msg': form.q.errors})
+        flash('搜索的keyword不符合要求')
+        # return jsonify({'msg': form.q.errors})
+    return render_template('search_result.html', books=books)
 
 
-@web.route('/test/')
-def test():
-    r = {
-        'name': 'Vince',
-        'age': 29
-    }
-    return render_template('test.html', data=r)
+@web.route('/book/<isbn>/detail')
+def book_detail(isbn):
+    pass
