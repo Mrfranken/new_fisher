@@ -2,8 +2,6 @@ from werkzeug.local import LocalStack
 from werkzeug.local import LocalStack, LocalProxy
 from threading import Thread, current_thread
 
-
-
 stack = LocalStack()
 stack.push(3)
 
@@ -17,10 +15,3 @@ t = Thread(target=push_num, name='child thread')
 
 t.start()
 print(1)
-
-
-
-
-
-
-

@@ -1,11 +1,9 @@
 import json
 from sqlalchemy import Column, Integer, String
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from .base import Base, db
 
 
-class Book(db.Model):
+class Book(Base):
     __tablename__ = 'book'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

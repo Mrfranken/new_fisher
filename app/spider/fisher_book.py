@@ -16,7 +16,7 @@ class FisherBook(object):
                     author=d.get('author', ''),
                     binding=d.get('binding', ''),
                     image=d.get('pic', ''),
-                    page=d.get('page') or '',
+                    page=d.get('page') or 0,
                     price=d.get('price', ''),
                     pubdate=d.get('pubdate', ''),
                     publisher=d.get('publisher', ''),
@@ -47,6 +47,9 @@ class FisherBook(object):
         only from database but not api
         """
         books = Book.query.filter(Book.author.like('%{}%'.format(keyword))).all()
+        if not books:
+            books = Book.query.filter(Book.title.like('%{}%'.format(keyword))).all()
+
         data = []
         for book in books:
             data.extend(self._extract_dict_from_instance(book))
@@ -60,3 +63,7 @@ class FisherBook(object):
             if not name.startswith('_') and name != 'id':
                 outcome.update({name: getattr(class_name, name) or ''})
         return [outcome]
+
+    @property
+    def first(self):
+        return self.books[0] if self.books else []

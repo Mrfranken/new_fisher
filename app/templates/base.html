@@ -90,7 +90,7 @@
         {% endwith %}
         {% if form and form.errors %}
             {% for key, error in form.errors.items() %}
-                <div class="alert alert-warning" role="alert">{{ error }}</div>
+                <div class="alert alert-warning" role="alert">{{ error | join('\n') }}</div>
             {% endfor %}
         {% endif %}
     </div>
@@ -99,7 +99,7 @@
     {% endblock %}
 </div>
 <div id="footer" class="flex-hor-center">
-    <span>© 2017-2020 yushu.im created by 七月</span>
+    <span>© 2017-2020 yushu.im created by 老V</span>
 </div>
 </body>
 

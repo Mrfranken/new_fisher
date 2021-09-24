@@ -39,6 +39,7 @@ if __name__ == '__main__':
         # '9787108012692'
         '9787546206134'
     ]
+    url = 'https://api.ftmscan.com/api?module=account&action=tokennfttx&address=0x6F5b646D2945E1B1d489cc59f6468177cE0B9152&sort=asc&apikey=7GXNJ6YH4UNGSAD2Z39T66GVEC5Q4MZ3WF'
     for isbn in isbn_list:
         outcome = HttpHelper.get(isbn=isbn, proxies=True)
     # html = requests.get(url)

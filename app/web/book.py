@@ -47,4 +47,12 @@ def search():
 
 @web.route('/book/<isbn>/detail')
 def book_detail(isbn):
-    pass
+    fish_book = FisherBook()
+    fish_book.search_by_isbn(isbn)
+
+    if fish_book.first:
+        book = BookViewModel(fish_book.first)
+        return render_template('book_detail.html', book=book, wishes=[], gifts=[])
+    else:
+        flash('找不到符合{}的书籍'.format(isbn))
+        return render_template('search_result.html', books=[])
